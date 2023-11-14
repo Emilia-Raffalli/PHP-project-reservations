@@ -9,9 +9,9 @@ include ('templates/header-connect.php');
 
     <form class="login flex-column-center" method="POST">
         <label for="login" class="form-label"></label>
-        <input type="login" class="form-control" id="login" placeholder="Identifiant">
+        <input type="login" class="form-control-login" id="login" placeholder="Identifiant">
         <label for="password" class="form-label"></label>
-        <input type="password" class="form-control" id="password" name ="password" Placeholder="Mot de passe">
+        <input type="password" class="form-control-login" id="password" name ="password" Placeholder="Mot de passe">
         <button type="submit" class="btn btn-dark">Connexion</button>
     </form>
 
