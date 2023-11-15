@@ -29,4 +29,18 @@ function selectAllOrderByName($table, $column)
     return $array;
 }
 
+
+
+function selectFromId(string $table, string $idName, $id): array
+{
+    $pdo = connect_db();
+    $query = ("SELECT * FROM $table WHERE $idName = :id");
+    $statement = $pdo->prepare($query);
+    $statement->bindValue(':id', $id, PDO::PARAM_INT);
+    $statement ->execute();
+    $array = $statement->fetch(PDO::FETCH_ASSOC); //fetchAll affiche tous les array | fetch n'affiche que le premier tableau
+    return $array;
+}
+
+
 ?>

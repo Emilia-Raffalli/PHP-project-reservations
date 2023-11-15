@@ -6,7 +6,8 @@ include ('templates/footer.php');
 $tableTheaters = selectAllOrderByName('theaters','theaterName');
 $tableCategories = selectAllOrderByName('categories','category');
 
-var_dump($_POST);
+// var_dump($_POST);
+
 
 if (isset($_POST) && !empty($_POST)) {
     $showTitle = $_POST['showTitle'];
@@ -41,38 +42,28 @@ if (isset($_POST) && !empty($_POST)) {
     $statement->bindValue(':priceCat2', $priceCat2, PDO::PARAM_STR);
     $statement->bindValue(':priceCat3', $priceCat3, PDO::PARAM_STR);
     $statement->bindValue(':theater_id', $idTheater, PDO::PARAM_INT);
+    
     $statement ->execute();
     $array = $statement -> fetch(PDO::FETCH_ASSOC);
 
-    var_dump($array);
+    // var_dump($array);
 
+    // to retrieve the last inserted id :
     $lastInsertId = $pdo->lastInsertId();
 
     echo "voici le dernier id généré :" . $lastInsertId ;
 
+    $query = ("INSERT INTO shows_categories (category_id, show_id) VALUES (:category_id, :lastInsertId)");
+    $statement = $pdo -> prepare($query);
+    $statement->bindValue(':category_id' , $idCategory, PDO::PARAM_INT);
+    $statement->bindValue(':lastInsertId' , $lastInsertId, PDO::PARAM_INT);
 
-    // $pdo = null;
+    $statement-> execute();
 
-
+    header('location:index.php');
+    exit();
 
 }
-// $query = 'INSERT INTO shows_categories
-
-
- // :category_id,
-// $statement->bindValue(':category_id', $idCategory, PDO::PARAM_INT);
-
-
-
-
-
-
-
-
-
-
-
-
 
 ?>
 
@@ -80,7 +71,7 @@ if (isset($_POST) && !empty($_POST)) {
 <main>
 
 <h1>Nouveau spectacle</h1>
-<form  action ="edit.php" method="POST" class="self-end">
+<form action="" method="POST" class="self-end">
         <div class="mb-3">
             <label for="showTitle" class="form-label"></label>
             <input type="text" class="form-control" id="showTitle" name="showTitle" placeholder="Titre du spectacle" required>
@@ -173,3 +164,5 @@ if (isset($_POST) && !empty($_POST)) {
 </form>
 
 </main>
+
+

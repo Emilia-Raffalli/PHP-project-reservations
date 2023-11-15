@@ -1,6 +1,6 @@
 <?php
-include ("_config.php");
-include ("function.php");
+include ("../_config.php");
+include ("../function.php");
 ?>
 
 <!doctype html>
