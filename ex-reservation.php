@@ -84,7 +84,7 @@ if (!empty($_GET['id']) && isset($_GET['id'])){
 <table class="table tb-resa table-striped col-4">
   <thead>
     <tr>
-        <td colspan="4" scope="col"> <?=$showTheater['showTitle']?></td>
+        <th colspan="4" scope="col"> <?=$showTheater['showTitle']?></th>
     </tr>
   </thead>
   <tbody>

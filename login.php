@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     if ($statement->execute()) {
         $customer = $statement->fetch(PDO::FETCH_ASSOC);
-        var_dump($customer);
+        // var_dump($customer);
 
         if ($customer && $password == $customer['custPassword']) {
             echo "Connexion réussie !";   

@@ -76,7 +76,7 @@ if ($statement -> execute()) {
         </div>
     </div>
     <p class="m-3"><span>Description :</span><br><?=$show['description']?></p>
-    <p class="m-3"><span>À partir de <?=$show['placePrice']?> € </span></p>    
+    <p class="m-3"><span>À partir de <?=$firstPlace?> € </span></p>    
 
 </div>
 

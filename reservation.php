@@ -11,7 +11,7 @@ if (isset($_GET['id'])) {
     $id = $_GET['id'];
 }
 
-// var_dump($_POST);
+var_dump($_POST);
 
 $nbplaces = 1;
 

@@ -50,8 +50,8 @@ $query = "SELECT r.*, s.*, t.*
         LEFT JOIN theaters as t 
         ON s.theater_id = t.id_theater
         WHERE id_representation = :id";
-$statement = $pdo->prepare($query);
-$statement->bindValue(':id', $id, PDO::PARAM_STR);
+        $statement = $pdo->prepare($query);
+        $statement->bindValue(':id', $id, PDO::PARAM_STR);
 
     if ($statement->execute()) {
         $info = $statement->fetch(PDO::FETCH_ASSOC);
@@ -61,23 +61,37 @@ $statement->bindValue(':id', $id, PDO::PARAM_STR);
     }
 
 
-//INSERTION DES INFOS RECUPEREES DANS LA TABLE CARTS:
-$query = "INSERT INTO carts (customer_id, representation_id, nbPlaces, totalPrice)
-        VALUES (:customer_id, :id_representation, :nbPlaces, :total)";
-$statement = $pdo->prepare($query);
-$statement->bindValue(':customer_id', $idCustomer, PDO::PARAM_INT);
-$statement->bindValue(':id_representation', $id, PDO::PARAM_INT);
-$statement->bindValue(':nbPlaces', $nbPlaces, PDO::PARAM_INT);
-$statement->bindValue(':total', $total, PDO::PARAM_INT);
+//INSERTION DES INFORMATIONS DANS UN PANIER:
+if (isset($_SESSION['cart'])) {
 
-if ($statement->execute()) {
+$cart = $_SESSION['cart'] = [
+    'showTitle' => $info['showTitle'],
+    'date' => $info['day'],
+    'time' => $info['time'],
+    'nbPlaces' => $nbPlaces,
+    'totalPrice' => $total
+];
+var_dump($_SESSION['cart']);
 
-    // echo "Insertion réussie.";
-} else {
-    echo "Erreur lors de l'insertion.";
 }
 
-$cart = selectFromCart($idCustomer, $id);
+//INSERTION DES INFOS RECUPEREES DANS LA TABLE CARTS:
+// $query = "INSERT INTO carts (customer_id, representation_id, nbPlaces, totalPrice)
+//         VALUES (:customer_id, :id_representation, :nbPlaces, :total)";
+// $statement = $pdo->prepare($query);
+// $statement->bindValue(':customer_id', $idCustomer, PDO::PARAM_INT);
+// $statement->bindValue(':id_representation', $id, PDO::PARAM_INT);
+// $statement->bindValue(':nbPlaces', $nbPlaces, PDO::PARAM_INT);
+// $statement->bindValue(':total', $total, PDO::PARAM_INT);
+
+// if ($statement->execute()) {
+
+//     // echo "Insertion réussie.";
+// } else {
+//     echo "Erreur lors de l'insertion.";
+// }
+
+// $cart = selectFromCart($idCustomer, $id);
 
 // var_dump($cart);
 ?>
@@ -88,7 +102,7 @@ $cart = selectFromCart($idCustomer, $id);
 <table class="table table-striped reservation">
         <thead>
         <tr>
-            <th colspan="4" class="title-resa" ><?=$info['showTitle']?></th>
+            <th colspan="4" class="title-resa" ><?=$cart['showTitle']?></th>
         </tr>
         <tr>
             <td colspan="4" ><span><?=$info['theaterName']?></span> | <?=$info['theaterAd']?> | <?=$info['theaterCity']?> - <?=$info['postalCode']?></th>
@@ -97,11 +111,11 @@ $cart = selectFromCart($idCustomer, $id);
         <tbody>
         <tr>
             <th>Date de représentation :</th>
-            <td colspan="4" scope="row"><?=$day=$info['day']?></td>
+            <td colspan="4" scope="row"><?=$cart['date']?></td>
         </tr>
         <tr>
             <th>Heure :</th>
-            <td  colspan="4" scope="row"><?=$time=$info['time']?></td>
+            <td  colspan="4" scope="row"><?=$cart['time']?></td>
 
         </tr>
         <tr>
@@ -111,7 +125,7 @@ $cart = selectFromCart($idCustomer, $id);
         </tr>
         <tr>
             <th>Total :</th>
-            <td  colspan="4" scope="row"><span><?=$cart['totalPrice']?> €</span></td>
+            <td  colspan="4" scope="row"><span><?=$total?> €</span></td>
 
         </tr>
     </table>
