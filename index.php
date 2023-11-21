@@ -1,5 +1,7 @@
 <?php
-session_start();
+include ('templates/header.php');
+include ('templates/footer.php');
+
 // On prolonge la session
 if(empty($_SESSION['email'])) 
 {
@@ -7,10 +9,6 @@ if(empty($_SESSION['email']))
   exit();
 }
 // var_dump($_SESSION);
-
-
-include ('templates/header.php');
-include ('templates/footer.php');
 
 $tableTheaters = selectAllFromSql('theaters');
 $tableShows = selectAllFromSql('shows');

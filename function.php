@@ -43,6 +43,32 @@ function selectFromId(string $table, string $idName, $id): array
 }
 
 
+
+//selectionner toutes les informations reliées à une representation
+function selectAllShowInfoFromIdRe($id)
+{
+$pdo = connect_db();
+$query = "SELECT r.*, s.*, t.*
+        FROM representations as r 
+        LEFT JOIN shows as s 
+        ON r.show_id = s.id_show
+        LEFT JOIN theaters as t 
+        ON s.theater_id = t.id_theater
+        WHERE id_representation = :id";
+        $statement = $pdo->prepare($query);
+        $statement->bindValue(':id', $id, PDO::PARAM_STR);
+
+    if ($statement->execute()) {
+        return $show = $statement->fetch(PDO::FETCH_ASSOC);
+        // var_dump($info);
+    } else {
+        echo "Erreur dans la requête.";
+    }
+}
+
+
+
+
 function selectFetchAllFromId(string $table, string $idName, $id): array
 {
     $pdo = connect_db();

@@ -103,7 +103,7 @@ if ($statement -> execute()) {
         <label for="nbPlaces">Nombre de Places :</label>
         <input type="number" name="nbPlaces" min="1" class="form-control" value ="1" required><br></input>
         <div class="flex align-end">
-            <button type="submit" class="btn btn-dark btn-lg">Je réserve</button>
+            <button type="submit" class="btn btn-dark btn-lg"  >Je réserve</button>
         </div>
 </form>
 

@@ -1,25 +1,27 @@
 <?php
-session_start();
 include('templates/header.php');
 include('templates/footer.php');
 
 $idCustomer = $_SESSION['id_customer'];
 
-// var_dump($_GET);
-
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
 }
 
-var_dump($_POST);
-
+// on determine un nombre de place par defaut
 $nbplaces = 1;
 
+// on récupère les données postées
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $day = $_POST['day'];
     $time = $_POST['time'];
     $nbplaces = $_POST['nbPlaces'];
 
+
+    // var_dump($_POST);
+    }
+
+// on se connecte à la bd pour selectionner les infos correspondantes à l'id récupéré
     $pdo = connect_db();
     $query = "SELECT r.*, s.*
             FROM representations as r 
@@ -35,10 +37,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if ($statement->execute()) {
         $showRepresentation = $statement->fetch(PDO::FETCH_ASSOC);
         // var_dump($showRepresentation);
+        $id = $showRepresentation['id_representation'];
     } else {
         echo "Erreur dans la requête.";
     }
-
  
     if (isset($_POST['nbPlaces'])) {
         $nbPlaces = $_POST['nbPlaces'];
@@ -49,12 +51,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $studentPrice = calculateDiscountedPrice($showRepresentation['placePrice'], $tableDiscounts[2]['discount']);
         $unemployedPrice = calculateDiscountedPrice($showRepresentation['placePrice'], $tableDiscounts[3]['discount']);
         $groupPrice = calculateDiscountedPrice($showRepresentation['placePrice'], $tableDiscounts[4]['discount']);
-        ?>
-<?php                    
     }
+
 ?>
     
-<form action="cart.php?id=<?=$id?>&places=<?=$nbPlaces?>" method="POST" class="reservation">
+<form action="addtocart.php?id=<?=$id?>&places=<?=$nbPlaces?>" method="POST" class="reservation">
     <table class="table">
         <thead>
         <tr>
@@ -81,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             </th>
         </tr>   
         <tr class="border-none">
-            <th  class="flex-end align-end border-none"><button class="btn btn-dark btn-lg" type="submit">Voir ma réservation</button></th>
+            <th  class="flex-end align-end border-none"><button class="btn btn-dark btn-lg" type="submit" name="places"  >Ajouter au panier</button></th>
         </tr>
     </table>
 </form>
@@ -114,28 +115,3 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 
 
-
-     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<?php
-
-}
-
-
-
-
-?>
