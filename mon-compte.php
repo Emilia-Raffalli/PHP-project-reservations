@@ -1,4 +1,5 @@
 <?php
+session_start();
 include ('templates/header.php');
 ?>
 
@@ -11,7 +12,7 @@ $customer = selectFromId( 'customers', 'id_customer', $idCustomer);
 
 <main>
 <h2>Mon compte</h2>
-<a href = "myreservations.php">Mes réservations</a>
+<a href = "mes-reservations.php">Mes réservations</a>
 
 <table class='table'>
     <thead>

@@ -1,4 +1,5 @@
 <?php
+session_start();
 include('templates/header-connect.php');
 
 // var_dump($_POST);

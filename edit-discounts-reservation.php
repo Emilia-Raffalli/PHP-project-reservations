@@ -5,8 +5,9 @@ include('templates/footer.php');
 
 $idCustomer = $_SESSION['id_customer'];
 
-if (isset($_GET['id'])) {
+if ((isset($_GET['id'])) && isset($_GET['idrep'])){
     $id = $_GET['id'];
+    $idup =$_GET['idrep'];
 }
 
 // on determine un nombre de place par defaut
@@ -38,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if ($statement->execute()) {
         $showRepresentation = $statement->fetch(PDO::FETCH_ASSOC);
         // var_dump($showRepresentation);
-        $id = $showRepresentation['id_representation'];
+        $idrep = $showRepresentation['id_representation'];
     } else {
         echo "Erreur dans la requête.";
     }
@@ -56,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 ?>
     
-<form action="addtocart.php?id=<?=$id?>&places=<?=$nbPlaces?>" method="POST" class="reservation">
+<form action="update-cart.php?idup=<?=$idup?>&idto=<?=$idrep?>&places=<?=$nbPlaces?>" method="POST" class="reservation" method="POST">
     <table class="table">
         <thead>
         <tr>

@@ -1,9 +1,7 @@
 <?php
-session_start();
 include ("_config.php");
 include ("function.php");
 ?>
-
 <!DOCTYPE html>
   <html lang="en">
     <head>

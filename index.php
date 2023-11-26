@@ -1,4 +1,5 @@
 <?php
+session_start();
 include ('templates/header.php');
 include ('templates/footer.php');
 
@@ -30,7 +31,7 @@ $tableShows = selectAllFromSql('shows');
             </a>
             <div class="card-body flex space-between align-center">
                 <a class="link-offset-2 link-underline link-underline-opacity-25" href="details.php?id=<?= $show['id_show'] ?>">Découvrir</a>
-                <a class='btn btn-dark' href="reservation.php">Réserver</a>
+                <a class='btn btn-dark' href="details.php?id=<?= $show['id_show'] ?>">Réserver</a>
             </div>
         </div>
     <?php endforeach; ?>

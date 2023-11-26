@@ -1,12 +1,12 @@
 <?php
-include('templates/header.php');
-include('templates/footer.php');
+session_start();
+include('function.php');
 
 
 if ((isset($_GET['id'])) && !empty($_GET['places'])) {
     $id = $_GET['id'];
     $nbPlaces = $_GET['places'];
-
+// var_dump($_GET);
 
     $place1 = $place2 = $place3 = $place4 = $place5 = null;
 
@@ -37,64 +37,23 @@ if ((isset($_GET['id'])) && !empty($_GET['places'])) {
 
 
 
-
-    
-    if (isset($_SESSION['cart'])) {
-        echo "Le panier existe !";
-        // var_dump($_SESSION['cart']);
-        $carts = $_SESSION['cart'];
-
-        // var_dump($carts);
-        // Ajouter ou mettre à jour les nouvelles valeurs
-        // $carts[$id] = $nbPlaces;
-        $carts[$id] = [
-            'nbPlaces' => $nbPlaces,
-            'totalPrice' => $total
-        ];
-    
-        // Enregistrez le panier mis à jour dans la session
-        $_SESSION['cart'] = $carts;
-        var_dump($carts);
-    } else {
-        echo "Rien dans le panier";
-    }
-    
-    // var_dump($_SESSION);
-
 }
+    
+if (isset($_SESSION['cart'])) {
+    echo "Le panier existe !";
+    $carts = $_SESSION['cart'];
+} else {
+    $carts = [];  // Initialisez le panier comme un tableau vide si la session n'existe pas encore
+}
+
+$carts[$id] = [
+    'nbPlaces' => $nbPlaces,
+    'totalPrice' => $total
+];
+
+$_SESSION['cart'] = $carts;
 
 header('Location:cart.php');
 exit();
 
-// Si vous souhaitez enregistrer les détails du spectacle dans la session
-// Vous pouvez décommenter ce bloc et l'adapter selon vos besoins
-/*
-if (isset($_SESSION['cart'])) {
-    $_SESSION['cart'] = [
-        'showTitle' => $info['showTitle'],
-        'date' => $info['day'],
-        'time' => $info['time'],
-        'nbPlaces' => $nbPlaces,
-        'totalPrice' => $total
-    ];
-    var_dump($_SESSION['cart']);
-} else {
-    $_SESSION['cart'] = [
-        'showTitle' => $info['showTitle'],
-        'date' => $info['day'],
-        'time' => $info['time'],
-        'nbPlaces' => $nbPlaces,
-        'totalPrice' => $total
-    ];
-}
-*/
-
-// Si vous souhaitez rediriger l'utilisateur après le traitement, vous pouvez décommenter ces lignes
-// header('Location: cart.php?id=' . $id);
-// exit();
-
-// Sinon, vous pouvez afficher un message comme celui-ci :
-// echo "Tarifs non renseignés.";
-
-// var_dump($_SESSION);
 ?>

@@ -1,14 +1,16 @@
 <?php
 session_start();
 include ('templates/header.php');
-include ('templates/footer.php');
 
 // var_dump($_GET);
 if (!empty($_GET)) {
     $id = $_GET['id'];
 
+    $idrep = $_GET['idrep'];
+    $nbPlaces = $_GET['nbSeats'];
 
-    
+
+
 //--Je recupere la table shows et fais une jointure pour recuperer les infos de la table categories, theaters, et shows_categories:
 $pdo = connect_db();
 $query = ('SELECT s.*, c.category, t.*
@@ -28,6 +30,18 @@ $tableDiscounts = selectAllFromSql('discounts');
 $firstPlace = calculateDiscountedPrice($show['placePrice'], $tableDiscounts[1]['discount']);
 // echo $firstPlace;
 
+
+//----je récupère les informations depuis la page cart pour les modifier ----//
+$representations = selectFromId('representations', 'id_representation', $idrep);
+// var_dump($representations);
+if (isset ($representations) && !empty($representations)) {
+    $daySelected = $representations['day'];
+    $timeSelected = $representations ['time'];
+}
+
+
+//---------------
+
 $startDate = new DateTime($show['startDate']);
 $endDate = new DateTime($show['endDate']);
 // Créer un formateur de date international en français
@@ -36,7 +50,7 @@ $startDateInLetters = $formatter->format($startDate);
 $endDateInLetters = $formatter->format($endDate);
 
 
-//--Je recupere toutes les dates disponibles de la table représentations : en semectionnant toutes les dates associées à l'id su spectacle et non les places disponibles sont supérieures à 0.
+//--Je recupere toutes les dates disponibles de la table représentations : en selectionnant toutes les dates associées à l'id su spectacle et non les places disponibles sont supérieures à 0.
 $pdo = connect_db();
 $query = ("SELECT day from representations WHERE show_id = :id AND availablePlaces > 0");
 $statement = $pdo -> prepare ($query);
@@ -82,19 +96,22 @@ if ($statement -> execute()) {
 </div>
 
 
-<form action='reservation.php?id=<?=$id?>' class="reservation" method="POST">
+<form action='edit-discounts-reservation.php?id=<?=$id?>&idrep=<?=$idrep?>' class="reservation" method="POST">
         <label for="day"></label>
-        <select class="form-select  day" name="day" id="day" required>
-            <option value ="" selected disabled hidden>Dates de représentations</option>
-            <?php foreach($availablesDates as $date) :?>
-            <option value ="<?=$date['day']?>"><?=$date['day']?></option>
-            <?php endforeach; ?>                        
+        <select class="form-select day" name="day" id="day" required>
+            <option value="" selected disabled hidden>Sélectionnez une date</option>
+            <?php foreach ($availablesDates as $date) : ?>
+                <option value="<?= $date['day'] ?>" <?= ($date['day'] == $daySelected) ? 'selected' : '' ?>>
+                    <?= $date['day'] ?>
+                </option>
+            <?php endforeach; ?>
         </select>
+
 
         <div>
             <label for="time"></label>
             <select id="time" name="time" class="form-select " required>
-                <option value="" selected disabled hidden>Choisissez votre horaire</option>
+                <option value="<?=$timeSelected?>" selected ><?=$timeSelected?></option>
                 <option value="15:30">15:30</option>
                 <option value="20:00">20:00</option>
             </select>
@@ -102,13 +119,19 @@ if ($statement -> execute()) {
         </div>
 
         <label for="nbPlaces">Nombre de Places :</label>
-        <input type="number" name="nbPlaces" min="1" class="form-control" value ="1" required><br></input>
+        <input type="number" name="nbPlaces" min="1" class="form-control" value ="<?=$nbPlaces?>"  required><br></input>
         <div class="flex align-end">
             <button type="submit" class="btn btn-dark btn-lg"  >Je réserve</button>
         </div>
 </form>
 
 
+
+
+
+<?php
+include ('templates/footer.php');
+?>
 
 
 
