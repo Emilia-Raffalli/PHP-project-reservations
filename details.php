@@ -1,7 +1,6 @@
 <?php
 session_start();
 include ('templates/header.php');
-include ('templates/footer.php');
 
 // var_dump($_GET);
 if (!empty($_GET)) {
@@ -50,66 +49,65 @@ if ($statement -> execute()) {
 
 }
 ?>
-
-<div class="desc-show flex-column align-center" style="padding: 30px; max-width:1200px; margin:auto;">
-    <div class="flex space-between">
-        <div class="flex-column">
-            <h1><?=$show['showTitle']?></h1>
-            <p><?= $show['theaterName'] ." - ". $show['theaterCity'] ." ". $show['postalCode']?></p>
+    <div class="desc-show flex-column align-center" style="padding: 30px; max-width:1200px; margin:auto;">
+        <div class="flex space-between">
+            <div class="flex-column">
+                <h1><?=$show['showTitle']?></h1>
+                <p><?= $show['theaterName'] ." - ". $show['theaterCity'] ." ". $show['postalCode']?></p>
+            </div>
+            <a href = "#day" ><button type="button" class="btn btn-resa m-3 btn-dark btn-lg self-end">Réserver ma séance</button></a>
         </div>
-        <a href = "#day" ><button type="button" class="btn btn-resa m-3 btn-dark btn-lg self-end">Réserver ma séance</button></a>
-    </div>
-    <div class="flex flex-wrap">
-        <img class="img-responsive" src="<?=$show['imageData']?>" alt="Affiche du spectacle <?=$show['showTitle']?>">
-        <div class="text-container">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item"><span>Genre :</span> <?=$show['category']?></li>
-                <li class="list-group-item"><span>Lieu : </span><br><?=$show['theaterName'] ." - ". $show['theaterAd'] ." - ".$show['theaterCity'] ." - ". $show['postalCode'] ."<br> ".$show['theaterPhone']?></li>
-                <li class="list-group-item"><span>Dates de spectacle :</span><br> Du <?=$startDateInLetters?> au <?=$endDateInLetters?></li>
-                <li class="list-group-item"><span>Durée du spectacle (en heures)</span> :<br><?=$show['duration']?></li>
-                <li class="list-group-item"><span>Artistes : </span><br> <?=$show['artists'] ?></li>
-                <li class="list-group-item"><span>Partager sur :</span><br>
-                    <i class="fa-brands fa-instagram"></i>
-                    <i class="fa-brands fa-facebook"></i>
-                    <i class="fa-brands fa-whatsapp"></i>
-                </li>
-            </ul>
+        <div class="flex flex-wrap">
+            <img class="img-responsive" src="<?=$show['imageData']?>" alt="Affiche du spectacle <?=$show['showTitle']?>">
+            <div class="text-container">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><span>Genre :</span> <?=$show['category']?></li>
+                    <li class="list-group-item"><span>Lieu : </span><br><?=$show['theaterName'] ." - ". $show['theaterAd'] ." - ".$show['theaterCity'] ." - ". $show['postalCode'] ."<br> ".$show['theaterPhone']?></li>
+                    <li class="list-group-item"><span>Dates de spectacle :</span><br> Du <?=$startDateInLetters?> au <?=$endDateInLetters?></li>
+                    <li class="list-group-item"><span>Durée du spectacle (en heures)</span> :<br><?=$show['duration']?></li>
+                    <li class="list-group-item"><span>Artistes : </span><br> <?=$show['artists'] ?></li>
+                    <li class="list-group-item"><span>Partager sur :</span><br>
+                        <i class="fa-brands fa-instagram"></i>
+                        <i class="fa-brands fa-facebook"></i>
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </li>
+                </ul>
+            </div>
         </div>
+        <p class="m-3"><span>Description :</span><br><?=$show['description']?></p>
+        <p class="m-3"><span>À partir de <?=$firstPlace?> € </span></p>    
+
     </div>
-    <p class="m-3"><span>Description :</span><br><?=$show['description']?></p>
-    <p class="m-3"><span>À partir de <?=$firstPlace?> € </span></p>    
-
-</div>
 
 
-<form action='reservation.php?id=<?=$id?>' class="reservation" method="POST">
-        <label for="day"></label>
-        <select class="form-select  day" name="day" id="day" required>
-            <option value ="" selected disabled hidden>Dates de représentations</option>
-            <?php foreach($availablesDates as $date) :?>
-            <option value ="<?=$date['day']?>"><?=$date['day']?></option>
-            <?php endforeach; ?>                        
-        </select>
-
-        <div>
-            <label for="time"></label>
-            <select id="time" name="time" class="form-select " required>
-                <option value="" selected disabled hidden>Choisissez votre horaire</option>
-                <option value="15:30">15:30</option>
-                <option value="20:00">20:00</option>
+    <form action='reservation.php?id=<?=$id?>' class="reservation" method="POST">
+            <label for="day"></label>
+            <select class="form-select  day" name="day" id="day" required>
+                <option value ="" selected disabled hidden>Dates de représentations</option>
+                <?php foreach($availablesDates as $date) :?>
+                <option value ="<?=$date['day']?>"><?=$date['day']?></option>
+                <?php endforeach; ?>                        
             </select>
 
-        </div>
+            <div>
+                <label for="time"></label>
+                <select id="time" name="time" class="form-select " required>
+                    <option value="" selected disabled hidden>Choisissez votre horaire</option>
+                    <option value="15:30">15:30</option>
+                    <option value="20:00">20:00</option>
+                </select>
 
-        <label for="nbPlaces">Nombre de Places :</label>
-        <input type="number" name="nbPlaces" min="1" class="form-control" value ="1" required><br></input>
-        <div class="flex align-end">
-            <button type="submit" class="btn btn-dark btn-lg"  >Je réserve</button>
-        </div>
-</form>
+            </div>
 
+            <label for="nbPlaces">Nombre de Places :</label>
+            <input type="number" name="nbPlaces" min="1" class="form-control" value ="1" required><br></input>
+            <div class="flex align-end">
+                <button type="submit" class="btn btn-dark btn-lg"  >Je réserve</button>
+            </div>
+    </form>
 
-
+<?php include ('templates/footer.php');
+?>
 
 
      

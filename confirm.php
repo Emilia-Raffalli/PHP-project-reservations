@@ -63,7 +63,7 @@ foreach ($carts as $id => $details) {
 
    $verifyStatement->execute();
    $allreadyDoneReservation = $verifyStatement->fetch(PDO::FETCH_ASSOC);
-
+}
    if (isset ($allreadyDoneReservation)) {
 ?>
 
@@ -89,33 +89,24 @@ if (isset($_POST['continue'])) {
 
     $statement->execute();
 
+
     header('Location:thank-you.php');
 
+
+
+
 } elseif (isset($_POST['cancel'])) {
-    // L'utilisateur a choisi d'annuler, vous pouvez rediriger ou afficher un message
-    header('Location: cart.php'); // Rediriger vers la page du panier
+    // L'utilisateur choisit d'annuler, je le redirige vers son panier.
+    header('Location: cart.php'); 
     exit();
 }
 
 
 }
 
-}
 
 
 
-
-
-
-
-
-
-
-
-
-
-
- 
 
 
 

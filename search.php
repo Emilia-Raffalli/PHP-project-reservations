@@ -1,16 +1,21 @@
 <?php
 session_start();
 include ('templates/header.php');
-include ('templates/footer.php');
 
 // var_dump($_POST);
+?>
 
+<div class="wrap">
+
+<?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = $_POST['title'];
     $day = $_POST['day'];
     $theater = $_POST['theater'];
 
-    echo "Résultats de la recherche pour : " . $title . "  " . $day . " " . $theater . "<br>";
+    echo 
+    "<div class ='flex flex-column'>
+        <p>Résultats de la recherche pour : " . $title . "  " . $day . " " . $theater . "<br></p>";
 
     $pdo = connect_db();
     
@@ -48,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "Aucun spectacle correspondant.";
     } else {
         ?>
-        <main>
+
             <div class="flex-row flex-wrap justify-center">
                 <?php foreach ($results as $result): ?>
                     <div class="card m-3" style="width: 18rem; box-shadow: 5px 5px 5px #dcdcdc; ">
@@ -62,25 +67,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                 <?php endforeach; ?>
             </div>
-        </main>
+    </div>
+</div>
         <?php
     }
 }
 
-
-// if ((isset($day) && !empty($day)) || (isset($title) && !empty($title))) {
-
-//     $pdo = connect_db();
-//     $query = "SELECT r.*, s.*, t.*
-//     FROM representations as r 
-//     LEFT JOIN shows as s ON r.show_id = s.id_show
-//     LEFT JOIN theaters as t ON s.theater_id = t.id_theater";
-//     $statement = $pdo->query($query);
-//     $statement->execute();
-//     $completeTable = $statement->fetchAll(PDO::FETCH_ASSOC);
-//     var_dump($completeTable);
-   
-//   }
+include ('templates/footer.php');
 
 
 

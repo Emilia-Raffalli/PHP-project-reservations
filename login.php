@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $customer = $statement->fetch(PDO::FETCH_ASSOC);
         // var_dump($customer);
 
-        if ($customer && $password == $customer['custPassword']) {
+        if ($customer && password_verify($password, $customer['custPassword'])) {
             echo "Connexion réussie !";   
             session_start();
             $_SESSION['id_customer'] = $customer['id_customer']; 
@@ -45,7 +45,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         <input type="login" class="form-control-login form-control" name="email" id="email" placeholder="Email">
         <label for="password" class="form-label"></label>
         <input type="password" class="form-control-login form-control" id="password" name ="password" Placeholder="Mot de passe">
-        <button type="submit" class="btn btn-dark">Connexion</button>
+        <div class = 'flex space-between connect-create'>
+             <a href ="create-account.php">Créer un compte</a>
+            <button type="submit" class="btn btn-dark">Connexion</button>
+        </div>
     </form>
-
 </div>

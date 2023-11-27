@@ -26,7 +26,7 @@ $pdo = connect_db();
     LEFT JOIN shows as s ON rep.show_id = s.id_show
     LEFT JOIN theaters as t ON s.theater_id = t.id_theater
     WHERE customer_id = :idCust
-    ORDER BY createdDate";
+    ORDER BY  createdDate DESC";
     
     $statement = $pdo -> prepare($query);
     $statement -> bindValue(':idCust', $idCust, PDO::PARAM_INT);
@@ -36,19 +36,20 @@ $pdo = connect_db();
 
     // var_dump($reservations);
 
-  
+ ?> 
 
 
+<div class="wrap">
+    <?php
+    foreach ($reservations as $i => $reservation):
+        $reservationDate = new DateTime($reservation['createdDate']);
+        $formatter = new IntlDateFormatter('fr_FR', IntlDateFormatter::FULL, IntlDateFormatter::MEDIUM, 'Europe/Paris', IntlDateFormatter::GREGORIAN);
 
-
-foreach ($reservations as $i => $reservation):
-    $reservationDate = new DateTime($reservation['createdDate']);
-    $formatter = new IntlDateFormatter('fr_FR', IntlDateFormatter::FULL, IntlDateFormatter::MEDIUM, 'Europe/Paris', IntlDateFormatter::GREGORIAN);
-
-?>
-<main>
-    <p><span>Reservation n° <?=$i +1?></span></p>
-    <p>Effectuée le <?= $formatter ->format($reservationDate)?>
+    ?>
+    <div class="flex flex-column">
+        <p><span>Reservation n° <?=$i +1?></span></p>
+        <p>Effectuée le <?= $formatter ->format($reservationDate)?>
+    </div>
     <table class="table table-striped reservation">
         <thead>
             <tr>
@@ -79,6 +80,10 @@ foreach ($reservations as $i => $reservation):
         </tbody>
     </table>
 
- </main>
-<?php endforeach ;?>
+    <?php endforeach ;?>
 
+</div>
+
+
+
+<?php include ('templates/footer.php');?>

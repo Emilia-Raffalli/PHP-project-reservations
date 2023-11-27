@@ -10,9 +10,11 @@ $pdo = connect_db();
 $customer = selectFromId( 'customers', 'id_customer', $idCustomer);
 ?>
 
-<main>
-<h2>Mon compte</h2>
-<a href = "mes-reservations.php">Mes réservations</a>
+<div class="wrap">
+    <div class="flex flex-column">
+        <h2> Mon compte</h2>
+        <a href = "mes-reservations.php">Mes réservations</a>
+    </div>
 
 <table class='table'>
     <thead>
@@ -32,8 +34,7 @@ $customer = selectFromId( 'customers', 'id_customer', $idCustomer);
     </thead>
 </table>
 
-</main>
-
+</div>
 
 
 <?php
